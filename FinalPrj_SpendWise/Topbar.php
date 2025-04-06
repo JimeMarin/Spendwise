@@ -155,21 +155,25 @@ require_once 'dbConfig.php';
 
 
     <div class="bottom-menu">
-        <div class="menu-item active">
-            <div class="menu-icon">📈</div>
-            <div class="menu-text"></div>
-        </div>
-        <div class="menu-item">
-            <div class="menu-icon">💰</div>
-            <div class="menu-text"></div>
-        </div>
-        <div class="menu-item">
-            <div class="menu-icon">🎯</div>
-            
-        </div>
-        <div class="menu-item">
-            <div class="menu-icon">🐖</div>
-            
-        </div>
+    <!-- Primer botón: Redirige a testExpenses.php -->
+    <div class="menu-item">
+        <a href="testExpenses.php" class="menu-icon" style="text-decoration: none; color: inherit;">📈</a>
     </div>
+
+    <!-- Segundo botón: Redirige a otra página -->
+    <div class="menu-item">
+        <a href="testCategory.php" class="menu-icon" style="text-decoration: none; color: inherit;">💰</a>
+    </div>
+
+    <!-- Tercer botón: Redirige a otra página -->
+    <div class="menu-item">
+        <a href="testGoals.php" class="menu-icon" style="text-decoration: none; color: inherit;">🎯</a>
+    </div>
+
+    <!-- Cuarto botón: Redirige a otra página -->
+    <div class="menu-item">
+        <a href="testSavings.php" class="menu-icon" style="text-decoration: none; color: inherit;">🐖</a>
+    </div>
+</div>
+
 </body>

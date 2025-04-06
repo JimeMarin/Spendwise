@@ -1,0 +1,249 @@
+<?php
+
+class Expenses
+{
+    private $expense_id;
+    private $category_id;
+    private $category_name;
+    private $amount;
+    private $description;
+    private $expense_date;
+    
+    function __construct($category_id = null, $amount = null, $description = null, $expense_date = null, $category_name = null)
+    {
+        $this-> category_id = $category_id;
+        $this-> amount = $amount;
+        $this-> description = $description;
+        $this-> expense_date = $expense_date;
+        $this-> category_name = $category_name;
+    }
+    
+    public function getExpenseId()
+    {
+        return $this -> expense_id;
+    }
+    
+    public function setExpenseId($expense_id)
+    {
+        $this -> expense_id = $expense_id;
+    }
+    
+    
+    public function getCategoryId()
+    {
+        return $this -> category_id;
+    }
+    
+    public function setCategoryId($category_id)
+    {
+        $this -> category_id = $category_id;
+    }
+    
+        
+    public function getCategoryName()
+    {
+        return $this -> category_name;
+    }
+    public function setCategoryName($category_name)
+    {
+        $this -> category_name = $category_name;
+    }
+    
+    
+    public function getAmount()
+    {
+        return $this -> amount;
+    }
+    public function setAmount($amount)
+    {
+        $this -> amount = $amount;
+    }
+    
+    
+    public function getDescription()
+    {
+        return $this -> description;
+    }
+    public function setDescription($description)
+    {
+        $this -> description = $description;
+    }
+    
+    
+    public function getExpenseDate()
+    {
+        return $this -> expense_date;
+    }
+    public function setExpenseDate($expense_date)
+    {
+        $this -> expense_date = $expense_date;
+    }
+      
+    public function getAllCategories ()
+    {
+        $sqlCategories = "SELECT category_id, NAME FROM categories";
+        $resultCategories = $connection->query($sqlCategories);
+        
+        // Mostrar las categorías como opciones en el select
+        if ($resultCategories && $resultCategories->rowCount() > 0) {
+            while ($rowCategory = $resultCategories->fetch(PDO::FETCH_ASSOC)) {
+                echo "<option value='{$rowCategory['category_id']}'>{$rowCategory['NAME']}</option>";
+            }
+        } else {
+            echo "<option value=''>No categories available</option>";
+        }
+    }
+         
+    public function __toString()
+    {
+        $str = "<tr class='expense-row'>
+                <td>{$this->getDescription()}</td>
+                <td>{$this->getExpenseDate()}</td>
+                <td>{$this->getCategoryName()}</td>
+                <td>{$this->getAmount()}</td>
+                <td>
+                    <form method='POST' action='' style='display:inline;'>
+                        <button type='submit' onclick='toggleConfirm(this)' name='delete_expense' value='{$this->getExpenseId()}'>Delete</button>                   
+                    </form>
+                </td>
+            </tr>";
+        return $str;
+    }
+    
+    
+    public static function getHeader()
+    {
+        $str="<table class='transactions-table'>";
+        $str = "$str<thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+            </thead><tbody>";
+        return $str;
+    }
+    
+    public static function getFooter()
+    {
+        return "</tbody></table>";
+    }
+    
+    
+    //CRUD
+    public function create($connection)
+    {
+        try {
+            
+            $sqlStmt = "INSERT INTO expenses (category_id, amount, description, expense_date)
+                    VALUES (:category_id, :amount, :description, :expense_date)";
+            
+            
+            $stmt = $connection->prepare($sqlStmt);
+                        
+            $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+            $stmt->bindParam(':amount', $this->amount, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
+            $stmt->bindParam(':expense_date', $this->expense_date, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+    public function update($connection)
+    {
+        try {
+            
+            if (empty($this->description) || empty($this->date)|| empty($this->category)|| empty($this->amount)) {
+                throw new Exception("information is missing.");
+            }
+            //depuracion
+            var_dump($this->description);
+            var_dump($this->date);
+            var_dump($this->category);
+            var_dump($this->amount);
+            //depuracion
+            $sqlStmt = "UPDATE expenses SET description = :description WHERE expense_id = :expense_id";
+            $stmt = $connection->prepare($sqlStmt);
+            $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
+            $stmt->bindParam(':date', $this->date, PDO::PARAM_INT);
+            $stmt->bindParam(':category', $this->category, PDO::PARAM_INT);
+            $stmt->bindParam(':amount', $this->amount, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+     
+    public function delete($connection)
+    {
+        try {
+            $sqlStmt = "DELETE FROM expenses WHERE expense_id = :expense_id";
+            $stmt = $connection->prepare($sqlStmt);
+            $stmt->bindParam(':expense_id', $this->expense_id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    } 
+    
+    
+    
+    public function getAllExpenses($connection)
+    {   
+        try {
+        $sqlStmt= "SELECT expenses.description, expenses.amount, expenses.expense_date, NAME AS category_name, expenses.category_id, expenses.expense_id
+                  FROM
+                    expenses
+                  INNER JOIN
+                    categories
+                  ON
+                    expenses.category_id = categories.category_id";
+        
+        
+        $tabExpenses = [];
+        
+        foreach($connection -> query ($sqlStmt) as $oneRec)
+        {
+            $expenses = new Expenses (
+                $oneRec["category_id"],
+                $oneRec["amount"],
+                $oneRec["description"],
+                $oneRec["expense_date"],
+                $oneRec["category_name"]
+                );
+            $expenses->setExpenseId($oneRec["expense_id"]); // <--- Agregando esta linea
+            $tabExpenses[]= $expenses;
+        }
+        return serialize ($tabExpenses);
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+    
+    
+    public static function displayExpenses ($tabOfExpenses)
+    {
+        echo Expenses::getHeader();
+        if (is_array($tabOfExpenses)) {
+        foreach ($tabOfExpenses as $oneExpense)
+            echo $oneExpense;
+        } else {
+            echo "<tr><td colspan='4'>No expenses found.</td></tr>";
+        }
+            echo Expenses::getFooter();
+    }
+    
+    
+}
+
+?>

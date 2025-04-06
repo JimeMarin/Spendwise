@@ -59,7 +59,7 @@ class Category
     
     public static function getHeader()
     {
-        $str="<table border='1' class='table table-striped table-hover'>";
+        $str="<table class='categories-table'>";
         $str = "$str<thead>
                     <tr>
                         <th>ID</th>
