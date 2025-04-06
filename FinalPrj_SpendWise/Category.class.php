@@ -3,8 +3,8 @@
 class Category
 {
     private $category_id;
-    private $name;
-
+    private $name;  
+    
     function __construct($category_id = null, $name = null)
     {
         $this-> category_id = $category_id;
@@ -16,65 +16,146 @@ class Category
         return $this -> category_id;
     }
     
+    public function setCategoryId($cat_id)
+    {
+        $this -> category_id = $cat_id;
+    }
+    
+    
+    
     public function getName()
     {
         return $this -> name;
     }
-    
     public function setName($name)
     {
         $this -> name = $name;
     }
-     
-    public static function getHeader()
-    {
-        $str = "<table border='1'>";
-        $str .= "<tr><th>Category ID</th><th>Name</th></tr>";
-        return $str;
-        
-    }
-    public static function getFooter()
-    {
-        return"</table>";
-    }
     
+      
+    
+         
     public function __toString()
     {
-        $str="<tr><td>$this->category_id</td><td>$this->name</td></tr>";
+        $str = "<tr>
+                <td>{$this->getCategoryId()}</td>
+                <td>{$this->getName()}</td>
+                <td>
+                    <!-- Botón Delete -->
+                    <form method='POST' action='' style='display:inline;'>
+                        <button type='submit' name='delete_category' value='{$this->getCategoryId()}'>🗑️</button>
+                    </form>
+                    
+                    <!-- Formulario Edit -->
+                    <form method='POST' action='' style='display:inline;'>
+                        <input type='text' name='new_name' placeholder='New Name' required>
+                        <button type='submit' name='update_category' value='{$this->getCategoryId()}'>💾</button>
+                    </form>
+                </td>
+            </tr>";
         return $str;
+    }
+    
+    
+    public static function getHeader()
+    {
+        $str="<table border='1' class='table table-striped table-hover'>";
+        $str = "$str<thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Delete</th>
+                    </tr>
+            </thead>";
+        return $str;
+    }
+    
+    public static function getFooter()
+    {
+        return "</table>";
     }
     
     
     //CRUD
     public function create($connection)
     {
-        $category_id = $this->category_id;
-        $name = $this->name;
-        
-        $sqlStmt ="INSERT INTO categories VALUES ('$category_id','$name')";
-        $result = $connection -> exec($sqlStmt);
-        return $result;
+        try {            
+            $sqlStmt = "INSERT INTO categories (category_id, NAME) VALUES (:category_id, :name)";
+            $result = $connection->prepare($sqlStmt);
+            return $result->execute([
+                ':category_id' => $this->category_id,
+                ':name' => $this->name,
+            ]);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
     }
-    
     
     public function update($connection)
     {
-        $category_id = $this->category_id;
-        $name = $this->name;
-        
-        $sqlStmt = "UPDATE categories SET name = '$name' WHERE category_id = $category_id";
-        $result = $connection->exec($sqlStmt);
-        return $result;
+        try {
+            
+            // Asegurarse de que las propiedades sean válidas
+            if (empty($this->name) || empty($this->category_id)) {
+                throw new Exception("Category name or ID is missing.");
+            }
+            //depuracion
+            var_dump($this->name);
+            var_dump($this->category_id);
+            //depuracion
+            $sqlStmt = "UPDATE categories SET NAME = :name WHERE category_id = :category_id";
+            $stmt = $connection->prepare($sqlStmt);
+            $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
+            $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
     
      
     public function delete($connection)
+    {        
+        try {
+            $sqlStmt = "DELETE FROM categories WHERE category_id = :category_id";
+            $stmt = $connection->prepare($sqlStmt);
+            $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }   
+    
+    
+    
+    public function getAllCategories($connection)
     {
-        $category_id = $this -> category_id;
-        $sqlStmt = "DELETE FROM categories WHERE category_id = $category_id";
-        $result = $connection -> exec($sqlStmt);
-        return $result;
-    }    
+        $counter = 0;
+        $tabCategories = [];
+        
+        $sqlStmt="Select * from categories";
+        
+        foreach($connection -> query ($sqlStmt) as $oneRec)
+        {
+            $category = new Category ();
+            $category -> setCategoryId($oneRec["category_id"]);
+            $category -> setName($oneRec ["NAME"]);
+            $tabCategories[$counter++]= $category;
+        }
+        return serialize ($tabCategories);
+    }
+    
+    public static function displayCategories ($tabOfCategories)
+    {
+        echo Category::getHeader();
+        foreach ($tabOfCategories as $oneCategory)
+            echo $oneCategory;
+            
+            echo Category::getFooter();
+    }
 }
 
 ?>

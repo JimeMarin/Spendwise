@@ -5,6 +5,7 @@
   <?php
       require_once 'dbConfig.php';
       echo "<h2>Manipulate the dataBase $dbName of the user $user </h2><br/>";
+      
   ?>        
 </head>
 <body>
