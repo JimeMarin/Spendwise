@@ -7,7 +7,7 @@
     <title>Category Management</title>
     <?php require_once 'Topbar.php';?>
     <style>
-        * {
+    * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -31,67 +31,9 @@
         }
             
         
-        .categories-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .categories-table  th, .transactions-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .categories-table  th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .categories-table  tr:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .main-content {
-            padding: 20px;
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        
-        h2 {
-            color: #444;
-            margin: 20px 0 15px 0;
-            font-size: 18px;
-        }
-        
-        .category-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .category-buttons button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .category-buttons button:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
-<div class="main-content">
     <h1>Categories</h1>
     <!-- Form add categ-->
     <form method="POST" action="">
@@ -175,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_category'])) {
 
 
 ?>
-</div>
+
 </body>
 </html>
-

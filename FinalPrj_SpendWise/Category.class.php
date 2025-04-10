@@ -100,10 +100,6 @@ class Category
             if (empty($this->name) || empty($this->category_id)) {
                 throw new Exception("Category name or ID is missing.");
             }
-            //depuracion
-            var_dump($this->name);
-            var_dump($this->category_id);
-            //depuracion
             $sqlStmt = "UPDATE categories SET NAME = :name WHERE category_id = :category_id";
             $stmt = $connection->prepare($sqlStmt);
             $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);

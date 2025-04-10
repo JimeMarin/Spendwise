@@ -96,17 +96,20 @@ class Expenses
          
     public function __toString()
     {
-        $str = "<tr class='expense-row'>
+        
+        $str = "<tr class='expense-row'>                               
+                <td class='delete-cell'>
+                    <div class='delete-wrapper'>
+                        <form method='POST' action=''>
+                            <button type='submit' onclick='toggleConfirm(this)' class='delete-btn' name='delete_expense' value='{$this->getExpenseId()}'>Delete</button>
+                        </form>
+                    </div>
+                </td>
                 <td>{$this->getDescription()}</td>
                 <td>{$this->getExpenseDate()}</td>
                 <td>{$this->getCategoryName()}</td>
                 <td>{$this->getAmount()}</td>
-                <td>
-                    <form method='POST' action='' style='display:inline;'>
-                        <button type='submit' onclick='toggleConfirm(this)' name='delete_expense' value='{$this->getExpenseId()}'>Delete</button>                   
-                    </form>
-                </td>
-            </tr>";
+                </tr>";
         return $str;
     }
     
@@ -116,6 +119,7 @@ class Expenses
         $str="<table class='transactions-table'>";
         $str = "$str<thead>
                 <tr>
+                    <th></th>
                     <th>Description</th>
                     <th>Date</th>
                     <th>Category</th>
@@ -219,7 +223,7 @@ class Expenses
                 $oneRec["expense_date"],
                 $oneRec["category_name"]
                 );
-            $expenses->setExpenseId($oneRec["expense_id"]); // <--- Agregando esta linea
+            $expenses->setExpenseId($oneRec["expense_id"]); 
             $tabExpenses[]= $expenses;
         }
         return serialize ($tabExpenses);

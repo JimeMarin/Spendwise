@@ -17,10 +17,8 @@
             background-color: #f5f5f5;
             padding-top: 60px;
             padding-bottom: 70px;
-        }
-        
-        
-        
+        }     
+                
         /* Contenido principal */
         .main-content {
             padding: 20px;
@@ -37,8 +35,28 @@
             font-size: 18px;
         }
         
+        /*Tabla Add expenses*/
+        .AddEx-table{
+            display: flex;
+            justify-content: space-around;
+            border-color: #416847;
+        }
         
-        /* Tabla de transacciones */
+        .transaction-btn{
+            padding: 8px 15px;
+        }
+        
+        .transaction-btn:hover{
+            background-color: #416847;
+            color: white;
+        }
+        
+        
+        .transaction-input{
+            padding: 8px 15px;
+        }
+        
+        /* Tabla de Expenses */
         .transactions-table {
             width: 100%;
             border-collapse: collapse;
@@ -46,6 +64,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
+       
         .transactions-table th, .transactions-table td {
             padding: 12px 15px;
             text-align: left;
@@ -62,19 +81,12 @@
             background-color: #f5f5f5;
         }
         
-        .income {
-            color: #4CAF50;
-        }
-        
-        .expense {
-            color: #f44336;
-        }
-        
+
         .expense-row {
             position: relative;
             overflow: hidden;
             transition: background-color 0.3s ease;
-        }
+        }       
         
         .expense-row:hover {
             background-color: #f0f0f0;
@@ -86,31 +98,34 @@
             padding: 10px;
         }
         
-/*         .delete-option { */
-/*             position: absolute; */
-/*             top: 0; */
-/*             right: -100px; /* Initially hidden */ */
-/*             width: 100px; */
-/*             height: 100%; */
-/*             background-color: rgba(255, 0, 0, 0.8); */
-/*             color: white; */
-/*             display: flex; */
-/*             justify-content: center; */
-/*             align-items: center; */
-/*             transition: right 0.3s ease; */
-/*         } */
+        .expense-row {
+          position: relative;
+        }
         
-/*         .expense-row:hover .delete-option { */
-/*             right: 0; /* Show on hover */ */
-/*         } */
+        .delete-cell {
+          position: relative;
+          overflow: hidden;
+          width: 80px;
+          padding: 0;
+        }
         
-/*         .delete-option button { */
-/*             background-color: transparent; */
-/*             border: none; */
-/*             color: white; */
-/*             cursor: pointer; */
-/*             font-size: 16px; */
+        .delete-btn {
+          position: absolute;
+          right: -80px;
+          top: 0;
+          height: 100%;
+          width: 80px;
+          background-color: #ff3b30;
+          color: white;
+          border: none;
+          transition: right 0.3s ease;
+          cursor: pointer;
+        }
         
+        .expense-row:hover .delete-btn {
+          right: 0;
+        }
+                
 
         }
         
@@ -125,12 +140,13 @@
         
         <h2>Recent Transactions</h2>
         <p><strong><script>document.write(new Date().toLocaleString('es-ES',{month:'short',year:'numeric'}));</script></strong></p>
-        
+         <br/>
         <h3>Add expenses</h3>
-        <form class="transactions-table" method="POST" action="">
-        <input type="text" name="add_expenses" placeholder="Add expenses" required>
-        <input type="date" name="expense_date" id="expense_date" required>
-        <select name="category_id" id="category_id" required>
+         <br/><br/>
+        <form class="AddEx-table" method="POST" action="">
+        <input type="text" name="add_expenses" class="transaction-input" placeholder="Add expenses" required>
+        <input type="date" name="expense_date" class="transaction-input" id="expense_date" required>
+        <select name="category_id" class="transaction-input" id="category_id" required>
         <?php
         // Obtener las categorías de la base de datos
         $sqlCategories = "SELECT category_id, NAME FROM categories";
@@ -146,9 +162,10 @@
         }
         ?>
    		</select>
-        <input type="number" name="add_amount" placeholder="Amount" required>
-        <button type="submit" name="add_new">Add Expense</button>
+        <input type="number" name="add_amount" class="transaction-input" placeholder="Amount" required>
+        <button type="submit" class="transaction-btn" name="add_new">Add Expense</button>
     	</form>      
+    	 <br/><br/>
     
 <?php
 require_once 'dbConfig.php';
