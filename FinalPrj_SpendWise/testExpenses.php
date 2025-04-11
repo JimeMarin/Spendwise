@@ -6,7 +6,7 @@
     <title>Expenses Management</title>
     <?php require_once 'Topbar.php';?>
     <style>
-            * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -81,49 +81,46 @@
             background-color: #f5f5f5;
         }
         
-
-        .expense-row {
-            position: relative;
-            overflow: hidden;
-            transition: background-color 0.3s ease;
-        }       
         
-        .expense-row:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .expense-data {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-        }
-        
-        .expense-row {
-          position: relative;
-        }
-        
-        .delete-cell {
-          position: relative;
-          overflow: hidden;
-          width: 80px;
-          padding: 0;
+        .delete-cell, .edit-cell {
+              position: relative;
+              overflow: hidden;
+              width: 80px;
+              padding: 0;
         }
         
         .delete-btn {
-          position: absolute;
-          right: -80px;
-          top: 0;
-          height: 100%;
-          width: 80px;
-          background-color: #ff3b30;
-          color: white;
-          border: none;
-          transition: right 0.3s ease;
-          cursor: pointer;
+              position: absolute;
+              right: -80px;
+              top: 0;
+              height: 100%;
+              width: 80px;
+              background-color: #ff3b30;
+              color: white;
+              border: none;
+              transition: right 0.3s ease;
+              cursor: pointer;
+        }
+        
+        .edit-btn {
+              position: absolute;
+              left: -80px;
+              top: 0;
+              height: 100%;
+              width: 80px;
+              background-color: #416847;
+              color: white;
+              border: none;
+              transition: left 0.3s ease;
+              cursor: pointer;
         }
         
         .expense-row:hover .delete-btn {
-          right: 0;
+            right: 0;
+        }
+        
+        .expense-row:hover .edit-btn{
+            left: 0;
         }
                 
 
@@ -148,11 +145,12 @@
         <input type="date" name="expense_date" class="transaction-input" id="expense_date" required>
         <select name="category_id" class="transaction-input" id="category_id" required>
         <?php
-        // Obtener las categorías de la base de datos
+        
+        
         $sqlCategories = "SELECT category_id, NAME FROM categories";
         $resultCategories = $connection->query($sqlCategories);
 
-        // Mostrar las categorías como opciones en el select
+        //select
         if ($resultCategories && $resultCategories->rowCount() > 0) {
             while ($rowCategory = $resultCategories->fetch(PDO::FETCH_ASSOC)) {
                 echo "<option value='{$rowCategory['category_id']}'>{$rowCategory['NAME']}</option>";
@@ -166,6 +164,7 @@
         <button type="submit" class="transaction-btn" name="add_new">Add Expense</button>
     	</form>      
     	 <br/><br/>
+    	          	 
     
 <?php
 require_once 'dbConfig.php';
@@ -212,9 +211,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_expense'])) {
     }
 }
 
+$expenses = new Expenses();
+$tabOfExpenses = unserialize($expenses->getAllExpenses($connection));
+$expenseId = $description = $date = $categoryId = $amount = '';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['open_edit_modal'])) {
+    
+    $expenseId = $_POST['edit_expense_id'];
+    $description = $_POST['edit_description'];
+    $date = $_POST['edit_date'];
+    $categoryId = $_POST['edit_category_id'];
+    $amount = $_POST['edit_amount'];
+    
+    // modal
+    echo '<div id="editModal" class="modal" style="display:block;">
+            <div class="modal-content">
+                <h2>Edit Expense</h2>
+                <form method="POST">
+                    <input type="hidden" name="expense_id" value="' . htmlspecialchars($expenseId) . '">
+                    <label>Description:</label>
+                    <input type="text" name="description" value="' . htmlspecialchars($description) . '" required>
+                    <label>Date:</label>
+                    <input type="date" name="expense_date" value="' . $date . '" required>
+                    <label>Category:</label>
+                    <select name="category_id" required>';
+    
+    
+    $sqlCategories = "SELECT category_id, NAME FROM categories";
+    $resultCategories = $connection->query($sqlCategories);
+    
+    if ($resultCategories && $resultCategories->rowCount() > 0) {
+        while ($rowCategory = $resultCategories->fetch(PDO::FETCH_ASSOC)) {
+            
+            $selected = ($rowCategory['category_id'] == $categoryId) ? 'selected' : '';
+            echo "<option value='{$rowCategory['category_id']}' {$selected}>{$rowCategory['NAME']}</option>";
+        }
+    } else {
+        echo "<option value=''>No categories available</option>";
+    }
+    
+    echo '</select>
+                    <label>Amount:</label>
+                    <input type="number" step="0.01" name="amount" value="' . htmlspecialchars($amount) . '" required>
+                    <button type="submit" name="update_expense">Update</button>
+                </form>
+            </div>
+        </div>';
+}
 
-?>  
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_expense'])) {
+    try {
+        $expenseId = $_POST['expense_id'];
+        $description = $_POST['description'];
+        $date = $_POST['expense_date'];
+        $category = $_POST['category_id'];
+        $amount = $_POST['amount'];
+        
+        $expenseToUpdate = new Expenses();
+        $expenseToUpdate->setExpenseId($expenseId);
+        $expenseToUpdate->setDescription($description);
+        $expenseToUpdate->setExpenseDate($date);
+        $expenseToUpdate->setCategoryId($category);
+        $expenseToUpdate->setAmount($amount);
+        
+        if ($expenseToUpdate->update($connection)) {
+            echo "<script>alert('Expense successfully updated!'); window.location.href='';</script>";
+        } else {
+            echo "<p style='color: red;'>Failed to update expense.</p>";
+        }
+    } catch (PDOException $e) {
+        echo "<p style='color: red;'>Error: " . $e->getMessage() . "</p>";
+    }
+}
+
+?>
 </div>
 </body>
 </html>

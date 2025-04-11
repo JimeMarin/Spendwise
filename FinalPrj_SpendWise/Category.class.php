@@ -37,21 +37,26 @@ class Category
          
     public function __toString()
     {
-        $str = "<tr>
-                <td>{$this->getCategoryId()}</td>
-                <td>{$this->getName()}</td>
-                <td>
-                    <!-- Botón Delete -->
-                    <form method='POST' action='' style='display:inline;'>
-                        <button type='submit' name='delete_category' value='{$this->getCategoryId()}'>🗑️</button>
-                    </form>
-                    
-                    <!-- Formulario Edit -->
-                    <form method='POST' action='' style='display:inline;'>
-                        <input type='text' name='new_name' placeholder='New Name' required>
-                        <button type='submit' name='update_category' value='{$this->getCategoryId()}'>💾</button>
-                    </form>
+        $str = "<tr class='category-row'>
+                <td class='delete-cell'>
+                    <div class='delete-wrapper'>
+                        <form method='POST' action='' style='display:inline;'>
+                        <button type='submit' onclick='toggleConfirm(this)' class='delete-btn' name='delete_category' value='{$this->getCategoryId()}'>Delete</button>
+                        </form>
+                    </div>
                 </td>
+                <td>{$this->getCategoryId()}</td>
+                <td>{$this->getName()}</td>  
+                              
+                <td class='edit-cell'>
+                    <div class='edit-wrapper'>
+                        <form method='POST' action='' style='display:flex; align-items: center;'> 
+                        <input type='text' name='new_name' placeholder='new Name' value = '{$this->getName()}' required >                       
+                        <button type='submit' onclick='toggleConfirm(this)' class='edit-btn' name='update_category' value='{$this->getCategoryId()}'>Save</button>
+                        </form>
+                    </div>
+                </td>
+                <td></td>
             </tr>";
         return $str;
     }
@@ -62,9 +67,11 @@ class Category
         $str="<table class='categories-table'>";
         $str = "$str<thead>
                     <tr>
+                        <th></th>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Delete</th>
+                        <th>Update Category</th>
+                        <th></th>
                     </tr>
             </thead>";
         return $str;

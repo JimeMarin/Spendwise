@@ -150,7 +150,6 @@ require_once 'dbConfig.php';
                     <span style="margin-left: 5px;"></span>
                 </div>
                 <div class="dropdown-content">
-                    <a href="#">Profile</a>
                     <a href="#">Settings</a>
                     <a href="#">Logout</a>
                 </div>

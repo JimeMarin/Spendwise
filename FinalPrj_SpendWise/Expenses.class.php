@@ -109,6 +109,18 @@ class Expenses
                 <td>{$this->getExpenseDate()}</td>
                 <td>{$this->getCategoryName()}</td>
                 <td>{$this->getAmount()}</td>
+                <td class='edit-cell'>
+                    <div class='edit-wrapper'>
+                        <form method='POST' action=''>
+                            <input type='hidden' name='edit_expense_id' value='{$this->getExpenseId()}'>
+                            <input type='hidden' name='edit_description' value='{$this->getDescription()}'>
+                            <input type='hidden' name='edit_date' value='{$this->getExpenseDate()}'>
+                            <input type='hidden' name='edit_category_id' value='{$this->getCategoryId()}'>
+                            <input type='hidden' name='edit_amount' value='{$this->getAmount()}'>
+                            <button type='submit' onclick='toggleConfirm(this)' class='edit-btn' name='open_edit_modal' value='{$this->getExpenseId()}'>Edit</button>
+                        </form>
+                    </div>
+                </td>
                 </tr>";
         return $str;
     }
@@ -124,6 +136,7 @@ class Expenses
                     <th>Date</th>
                     <th>Category</th>
                     <th>Amount</th>
+                    <th></th>
                 </tr>
             </thead><tbody>";
         return $str;
@@ -162,21 +175,19 @@ class Expenses
     {
         try {
             
-            if (empty($this->description) || empty($this->date)|| empty($this->category)|| empty($this->amount)) {
+            if (empty($this->description) || empty($this->expense_date)|| empty($this->category_id)|| empty($this->amount)) {
                 throw new Exception("information is missing.");
             }
-            //depuracion
-            var_dump($this->description);
-            var_dump($this->date);
-            var_dump($this->category);
-            var_dump($this->amount);
-            //depuracion
-            $sqlStmt = "UPDATE expenses SET description = :description WHERE expense_id = :expense_id";
+            $sqlStmt = "UPDATE expenses
+            SET description = :description, expense_date = :expense_date, category_id = :category_id, amount = :amount
+            WHERE expense_id = :expense_id";
             $stmt = $connection->prepare($sqlStmt);
-            $stmt->bindParam(':description', $this->description, PDO::PARAM_STR);
-            $stmt->bindParam(':date', $this->date, PDO::PARAM_INT);
-            $stmt->bindParam(':category', $this->category, PDO::PARAM_INT);
-            $stmt->bindParam(':amount', $this->amount, PDO::PARAM_INT);
+            $stmt->bindParam(':description', $this->description, PDO::PARAM_STR); //bindParam sirve para vincular la var de php con a un ph con nombre en el SQLSTMT
+            $stmt->bindParam(':expense_date', $this->expense_date, PDO::PARAM_STR);//PDO:PARAM...etc ayuda a optimizar pq se especifica el tipo que se espera
+            $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+            $stmt->bindParam(':amount', $this->amount, PDO::PARAM_STR);
+            $stmt->bindParam(':expense_id', $this->expense_id, PDO::PARAM_INT);
+            
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
