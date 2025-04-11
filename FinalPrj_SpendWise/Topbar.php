@@ -15,8 +15,7 @@ require_once 'dbConfig.php';
             left: 0;
             width: 100%;
             height: 60px;            
-            color: white;   
-            display: flex;
+            color: white; 
             background-color: #182749;  
             display: flex;     
             align-items: center;
@@ -28,8 +27,14 @@ require_once 'dbConfig.php';
         .logo {
             font-size: 20px;
             font-weight: bold;
-            width: 100px;            
+            width: 130px;            
             justify-content: flex-start;
+        }
+        
+        .right-section {
+            display: flex;
+            margin-left: auto; 
+            align-items: center;
         }
         
         .user-menu {
@@ -40,7 +45,7 @@ require_once 'dbConfig.php';
         }
         
         .user-name {
-            
+            justify-content: flex-end;
             display: flex;
             cursor: pointer;
             align-items: center;
@@ -75,10 +80,12 @@ require_once 'dbConfig.php';
         .notifications {
             position: relative;
             cursor: pointer;
+            margin-left: 20px;  
         }
         
         .notification-bell {
             font-size: 20px;
+            justify-content: flex-end;
         }
         
         .notification-count {
@@ -132,19 +139,22 @@ require_once 'dbConfig.php';
     </style>
     <!-- Barra superior fija -->
     <div class="top-bar">
-    	<img src="imgs/LogoSW.png" alt="logo" class="logo">       
-        <div class="user-menu">
-            <div class="user-name">
-                John Doe
-                <span style="margin-left: 5px;"></span>
-            </div>
-            <div class="dropdown-content">
-                <a href="#">Profile</a>
-                <a href="#">Settings</a>
-                <a href="#">Logout</a>
+    
+    	<img src="imgs/LogoSW.png" alt="logo" class="logo">   
+    	
+    	<div class="right-section">
+    	    
+            <div class="user-menu">
+                <div class="user-name">
+                    John Doe
+                    <span style="margin-left: 5px;"></span>
+                </div>
+                <div class="dropdown-content">
+                    <a href="#">Settings</a>
+                    <a href="#">Logout</a>
+                </div>
             </div>
         </div>
-        
         <div class="notifications">
             <span class="notification-bell">🔔</span>
             <span class="notification-count"></span>
@@ -155,21 +165,30 @@ require_once 'dbConfig.php';
 
 
     <div class="bottom-menu">
-        <div class="menu-item active">
-            <div class="menu-icon">📈</div>
-            <div class="menu-text"></div>
-        </div>
-        <div class="menu-item">
-            <div class="menu-icon">💰</div>
-            <div class="menu-text"></div>
-        </div>
-        <div class="menu-item">
-            <div class="menu-icon">🎯</div>
-            
-        </div>
-        <div class="menu-item">
-            <div class="menu-icon">🐖</div>
-            
-        </div>
+    <!-- Primer botón: Redirige a testExpenses.php -->
+    <div class="menu-item">
+        <a href="testExpenses.php" class="menu-icon" style="text-decoration: none; color: inherit;">📈</a>
     </div>
+
+    <!-- Segundo botón: Budget-->
+    <div class="menu-item">
+        <a href="testBudget.php" class="menu-icon" style="text-decoration: none; color: inherit;">💰</a>
+    </div>
+    
+    <!-- Segundo botón:Categories-->
+    <div class="menu-item">
+        <a href="testCategory.php" class="menu-icon" style="text-decoration: none; color: inherit;">📋</a>
+    </div>
+
+    <!-- Tercer botón: Goals -->
+    <div class="menu-item">
+        <a href="testGoals.php" class="menu-icon" style="text-decoration: none; color: inherit;">🎯</a>
+    </div>
+
+    <!-- Cuarto botón:  Savings -->
+    <div class="menu-item">
+        <a href="testSavings.php" class="menu-icon" style="text-decoration: none; color: inherit;">🐖</a>
+    </div>
+</div>
+
 </body>

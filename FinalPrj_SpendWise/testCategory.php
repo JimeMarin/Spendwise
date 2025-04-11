@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,27 +19,126 @@
             padding-bottom: 70px;
         }
         
-        tr:hover .actions {
-          opacity: 1;
-          transform: translateX(0);
+        .main-content {
+            padding: 20px;
         }
-        .actions {
-          opacity: 0;
-          transform: translateX(10px);
-          transition: all 0.3s ease;
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
         }
+        
+        h2 {
+            color: #444;
+            margin: 20px 0 15px 0;
+            font-size: 18px;
+        }
+         
+        /*Add categ*/    
+        .AddCat-table{
+            display: flex;
+            justify-content: space-around;
+            border-color: #416847;
+        }
+        
+                .transaction-btn{
+            padding: 8px 15px;
+        }
+        
+        .transaction-btn:hover{
+            background-color: #416847;
+            color: white;
+        }
+        
+        
+        .transaction-input{
+            padding: 8px 15px;
+        }
+        
+        /*show - edit catg*/
+        
+        .categories-table{
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             
+        }
+        
+        .categories-table th, .categories-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .categories-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .categories-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .delete-cell, .edit-cell {
+              position: relative;
+              overflow: hidden;
+              width: 80px;
+              padding: 0;
+        }
+        
+        .delete-btn {
+              position: absolute;
+              right: -80px;
+              top: 0;
+              height: 100%;
+              width: 80px;
+              background-color: #ff3b30;
+              color: white;
+              border: none;
+              transition: right 0.3s ease;
+              cursor: pointer;
+        }
+        
+         .edit-btn {
+              position: absolute;
+              left: -80px;
+              top: 0;
+              height: 100%;
+              width: 80px;
+              background-color: #416847;
+              color: white;
+              border: none;
+              transition: left 0.3s ease;
+              cursor: pointer;
+        } 
+        
+        .category-row:hover .delete-btn {
+            right: 0;
+        }
+         
+         .category-row:hover .edit-btn{
+            left: 0;
+        }
+          
+
+        
         
     </style>
 </head>
 <body>
+<div class="main-content">
     <h1>Categories</h1>
     <!-- Form add categ-->
-    <form method="POST" action="">
-        <input type="text" name="new_category" placeholder="New category" required>
-        <button type="submit" name="add_category">Add Category</button>
+    <br/>
+        <h3>Add categories</h3>
+    <br/><br/>    
+    <form class="AddCat-table" method="POST" action="">
+        <input type="text" name="new_category" class="transaction-input"placeholder="New category" required>
+        <button type="submit" class="transaction-btn" name="add_category">Add Category</button>
     </form>  
-      
+    <br/><br/>  
 <?php
 require_once 'dbConfig.php';
 require_once 'Category.class.php';
@@ -117,7 +215,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_category'])) {
 
 
 ?>
-
+</div>
 </body>
 </html>
-
