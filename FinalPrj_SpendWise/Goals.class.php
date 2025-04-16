@@ -24,7 +24,7 @@ class Goal {
     {
         return $this->goalId;
     }
-
+    
     /**
      * @return mixed
      */
@@ -32,7 +32,7 @@ class Goal {
     {
         return $this->name;
     }
-
+    
     /**
      * @return mixed
      */
@@ -40,7 +40,7 @@ class Goal {
     {
         return $this->targetAmount;
     }
-
+    
     /**
      * @return mixed
      */
@@ -48,7 +48,7 @@ class Goal {
     {
         return $this->currentAmount;
     }
-
+    
     /**
      * @return mixed
      */
@@ -56,7 +56,7 @@ class Goal {
     {
         return $this->deadline;
     }
-
+    
     /**
      * @return mixed
      */
@@ -64,7 +64,7 @@ class Goal {
     {
         return $this->status;
     }
-
+    
     /**
      * @param mixed $goalId
      */
@@ -72,7 +72,7 @@ class Goal {
     {
         $this->goalId = $goalId;
     }
-
+    
     /**
      * @param mixed $name
      */
@@ -80,7 +80,7 @@ class Goal {
     {
         $this->name = $name;
     }
-
+    
     /**
      * @param mixed $targetAmount
      */
@@ -88,7 +88,7 @@ class Goal {
     {
         $this->targetAmount = $targetAmount;
     }
-
+    
     /**
      * @param mixed $currentAmount
      */
@@ -96,7 +96,7 @@ class Goal {
     {
         $this->currentAmount = $currentAmount;
     }
-
+    
     /**
      * @param mixed $deadline
      */
@@ -104,7 +104,7 @@ class Goal {
     {
         $this->deadline = $deadline;
     }
-
+    
     /**
      * @param mixed $status
      */
@@ -112,7 +112,7 @@ class Goal {
     {
         $this->status = $status;
     }
-
+    
     public function __toString()
     {
         $progress = min(100, round(($this->getCurrentAmount() / $this->getTargetAmount()) * 100));
@@ -137,8 +137,8 @@ class Goal {
                 {$progress}%
             </div>
         </div>";
-        
-        $str = "<tr class='goal-row'>
+                
+                $str = "<tr class='goal-row'>
                 <td class='delete-cell'>
                     <div class='delete-wrapper'>
                         <form method='POST' action=''>
@@ -165,7 +165,7 @@ class Goal {
                     </div>
                 </td>
                 </tr>";
-        return $str;
+                return $str;
     }
     
     
@@ -225,7 +225,7 @@ class Goal {
             $sqlStmt = "UPDATE goals
                         SET name = :name, target_amount = :target_amount, current_amount = :current_amount, deadline = :deadline, status = :status
                         WHERE goal_id = :goal_id";
-            $stmt = $connection->prepare($sqlStmt); 
+            $stmt = $connection->prepare($sqlStmt);
             $stmt->bindParam(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindParam(':target_amount', $this->targetAmount, PDO::PARAM_STR);
             $stmt->bindParam(':current_amount', $this->currentAmount, PDO::PARAM_STR);

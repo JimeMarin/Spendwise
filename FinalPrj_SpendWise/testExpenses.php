@@ -169,6 +169,7 @@
 <?php
 require_once 'dbConfig.php';
 require_once 'Expenses.class.php';
+require_once 'heading.php';
 
 $expenses = new Expenses();
 $tabOfExpenses= unserialize($expenses->getAllExpenses($connection));

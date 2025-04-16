@@ -146,12 +146,14 @@ require_once 'dbConfig.php';
     	    
             <div class="user-menu">
                 <div class="user-name">
-                    John Doe
+                    <?php require_once 'heading.php';?>
                     <span style="margin-left: 5px;"></span>
                 </div>
                 <div class="dropdown-content">
-                    <a href="#">Settings</a>
-                    <a href="#">Logout</a>
+                    <a href="changePassword.php">Change Password</a>
+                    <?php if (isset($_SESSION["ID"])): ?>
+                		<a href="endSession.php">Logout</a>
+                	<?php endif; ?>
                 </div>
             </div>
         </div>
