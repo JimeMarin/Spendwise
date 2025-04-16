@@ -1,0 +1,80 @@
+
+DROP TABLE IF EXISTS categories;
+
+CREATE TABLE categories (
+    category_id INT(6) UNSIGNED ZEROFILL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+DROP TABLE IF EXISTS expenses;
+
+CREATE TABLE expenses (
+    expense_id INT(6) UNSIGNED ZEROFILL AUTO_INCREMENT PRIMARY KEY,
+    category_id INT(6) UNSIGNED,
+    amount DECIMAL(10,2) NOT NULL,
+    description VARCHAR(255),
+    expense_date DATE NOT NULL,
+    
+    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL
+);
+
+
+DROP TABLE IF EXISTS budget;
+
+CREATE TABLE budget (
+    budget_id INT(6) UNSIGNED ZEROFILL AUTO_INCREMENT PRIMARY KEY,
+    category_id INT(6) UNSIGNED,
+    amount DECIMAL(10,2) NOT NULL,
+    period ENUM('weekly', 'monthly', 'yearly') NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    
+    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL
+);
+
+DROP TABLE IF EXISTS goals;
+
+CREATE TABLE goals (
+    goal_id INT(6) UNSIGNED ZEROFILL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    target_amount DECIMAL(10,2) NOT NULL,
+    current_amount DECIMAL(10,2) DEFAULT 0.00,
+    deadline DATE NOT NULL,
+    status ENUM('in_progress', 'completed', 'failed') DEFAULT 'in_progress'
+);
+
+
+
+
+INSERT INTO categories (name) VALUES 
+('Food'),
+('Transport'),
+('Entertainment'),
+('Health'),
+('Education')
+
+
+INSERT INTO expenses (expense_id, category_id, amount, description, expense_date) VALUES
+(NULL, 1, 45.50, 'Grocery shopping', '2024-03-01'),
+(NULL, 2, 15.75, 'Bus pass', '2024-03-02'),
+(NULL, 3, 80.00, 'Electricity bill', '2024-03-03'),
+(NULL, 4, 120.00, 'Internet bill', '2024-03-04'),
+(NULL, 5, 200.00, 'Car repair', '2024-03-05'),
+(NULL, 3, 55.00, 'Water bill', '2024-03-07'),
+(NULL, 2, 10.00, 'Coffee', '2024-03-08'),
+(NULL, 4, 60.00, 'Phone bill', '2024-03-09'),
+(NULL, 1, 30.00, 'Household items', '2024-03-10');
+
+
+INSERT INTO budget (category_id, amount, period, start_date, end_date) VALUES
+(1, 500.00, 'monthly', '2024-04-01', '2024-04-30'),
+(2, 100.00, 'weekly', '2024-04-01', '2024-04-07'),
+(3, 2000.00, 'yearly', '2024-01-01', '2024-12-31');
+
+INSERT INTO goals (name, target_amount, current_amount, deadline, status) VALUES
+('Buy a Car', 25000.00, 5000.00, '2026-01-01', 'in_progress'),
+('Trip to Japan', 10000.00, 2000.00, '2025-12-15', 'in_progress'),
+('Pay Off Student Loan', 15000.00, 8000.00, '2027-06-01', 'in_progress'),
+('Buy a New Laptop', 2000.00, 500.00, '2024-12-01', 'in_progress');
+
+
