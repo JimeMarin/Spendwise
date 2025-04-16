@@ -61,20 +61,20 @@
 <body>
 <?php
 require_once 'dbConfig.php';
-require_once 'Budget.class.php'; // Asegúrate de que la ruta sea correcta
+require_once 'Budget.class.php'; 
 
-// Crear instancia de la clase Budget
+
 $budget = new Budget($connection);
 
-// Obtener los datos del presupuesto
+
 $budgetData = $budget->getBudgetData();
 $data = $budgetData['data'];
 $total = $budgetData['total'];
 
-// Calcular los porcentajes
+// Calc %
 $percentages = $budget->calculatePercentages($data, $total);
 
-// Codificar los datos para JavaScript
+
 $labels = json_encode(array_keys($percentages));
 $values = json_encode(array_values($percentages));
 ?>

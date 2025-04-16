@@ -81,12 +81,20 @@
             background-color: #f5f5f5;
         }
         
-        .delete-cell, .edit-cell {
+        .delete-cell{
               position: relative;
               overflow: hidden;
               width: 80px;
               padding: 0;
         }
+        
+        .edit-cell {
+              position: relative;
+              overflow: hidden;
+              width: 80px;
+              padding: 0;
+        }
+        
         
         .delete-btn {
               position: absolute;
@@ -103,14 +111,14 @@
         
          .edit-btn {
               position: absolute;
-              left: -80px;
+              right: -80px;
               top: 0;
               height: 100%;
               width: 80px;
               background-color: #416847;
               color: white;
               border: none;
-              transition: left 0.3s ease;
+              transition: right 0.3s ease;
               cursor: pointer;
         } 
         
@@ -119,8 +127,17 @@
         }
          
          .category-row:hover .edit-btn{
-            left: 0;
+            right: 0;
         }
+        
+        .Iedit {
+            margin-right: 70px;
+        }
+               
+
+        
+}
+        
           
 
         
