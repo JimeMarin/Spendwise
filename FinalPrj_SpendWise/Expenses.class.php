@@ -84,7 +84,7 @@ class Expenses
         $sqlCategories = "SELECT category_id, NAME FROM categories";
         $resultCategories = $connection->query($sqlCategories);
         
-        // Mostrar las categorías como opciones en el select
+        // categorias de la db
         if ($resultCategories && $resultCategories->rowCount() > 0) {
             while ($rowCategory = $resultCategories->fetch(PDO::FETCH_ASSOC)) {
                 echo "<option value='{$rowCategory['category_id']}'>{$rowCategory['NAME']}</option>";

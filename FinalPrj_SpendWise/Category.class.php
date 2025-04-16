@@ -50,9 +50,9 @@ class Category
                               
                 <td class='edit-cell'>
                     <div class='edit-wrapper'>
-                        <form method='POST' action='' style='display:flex; align-items: center;'> 
-                        <input type='text' name='new_name' placeholder='new Name' value = '{$this->getName()}' required >                       
-                        <button type='submit' onclick='toggleConfirm(this)' class='edit-btn' name='update_category' value='{$this->getCategoryId()}'>Save</button>
+                        <form method='POST' action='' > 
+                            <input class= 'Iedit' type='text' name='new_name' placeholder='new Name' value = '{$this->getName()}' required >                       
+                            <button type='submit' onclick='toggleConfirm(this)' class='edit-btn' name='update_category' value='{$this->getCategoryId()}'>Save</button>
                         </form>
                     </div>
                 </td>
