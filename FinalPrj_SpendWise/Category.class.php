@@ -145,7 +145,7 @@ class Category
         {
             $category = new Category ();
             $category -> setCategoryId($oneRec["category_id"]);
-            $category -> setName($oneRec ["NAME"]);
+            $category -> setName($oneRec ["name"]);
             $tabCategories[$counter++]= $category;
         }
         return serialize ($tabCategories);
