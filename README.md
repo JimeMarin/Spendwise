@@ -23,7 +23,7 @@ A web application to track, organize and visualize your personal finances — wi
 
 | Expenses Tracking | Budgets | Categories | Goal Tracking | Savings Tracking |
 |------|--------------|-----------------|---------|---------------|
-| ![Expenses](Screenshots/expenses.png) | ![Budgets](Screenshots/budget.png) | ![Categories](Screenshots/categories.png) | ![Goals](Screenshots/goals.png) | ![Savings](Screenshots/savings.png) |
+| ![Expenses](FinalPrj_SpendWise/Screenshots/expenses.png) | ![Budgets](FinalPrj_SpendWise/Screenshots/budget.png) | ![Categories](FinalPrj_SpendWise/Screenshots/categories.png) | ![Goals](FinalPrj_SpendWise/Screenshots/goals.png) | ![Savings](FinalPrj_SpendWise/Screenshots/savings.png) |
 
 
 ---
